@@ -12,16 +12,8 @@ class GenTags {
         if (elems == null) {
             elems = document.querySelectorAll('[data-gentag]');
         }
-        else {
-            elems = document.querySelectorAll(elems);
-        }
         for (const element of elems) {
-            if (element.tagName == "P") {
-                this.hydrate_gentag(element, "text");
-            }
-            else if (element.tagName == "IMG") {
-                this.hydrate_gentag(element, "image");
-            }
+            this.hydrate_gentag(element);
         }
     }
 
@@ -36,37 +28,77 @@ class GenTags {
         xhttp.send(JSON.stringify({"query": "test!"}));
     }
 
-    hydrate_gentag(elem, type){
-        prompt = elem.attributes['data-prompt'].value;
-        // send prompt to gentags api
+    get_gentag_type(elem) {
+        if (elem.tagName == "P") {
+            return "text";
+        }
+        else if (elem.tagName == "IMG") {
+            return "image";
+        }  
+    }
+
+    generate_text(prompt, callback, strip_quotes=true, replace_newlines=true) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             let response = this.responseText;
             // strip quotes from beginning and end of response
-            if (response[0] == '"') {
-                response = response.substring(1, response.length - 1);
+            if (strip_quotes) {
+                if (response[0] == '"') {
+                    response = response.substring(1, response.length - 1);
+                }
+                if (response[response.length - 1] == '"') {
+                    response = response.substring(0, response.length - 2);
+                }
             }
-            if (response[response.length - 1] == '"') {
-                response = response.substring(0, response.length - 2);
+            if (replace_newlines) {
+                response = response.replace(/\\n/g, "<br>");
             }
-            if (type == "text") {
-                elem.innerHTML = response;
-            }
-            else if (type == "image") {
-                elem.src = response;
-            }  
+
+            callback(response);
         }
-        let url = "";
-        if (type == "text") {
-            url = this.base_url + "/generate-text";
-        }
-        else if (type == "image") {
-            url = this.base_url + "/generate-image";
-        }
-        xhttp.open("POST", url, true);
+        xhttp.open("POST", this.base_url + "/generate-text", true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.setRequestHeader('x-api-key', this.api_key);
         xhttp.send(JSON.stringify({"prompt": prompt}));
+    }
+
+    generate_image(prompt, callback, strip_quotes=true) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            let response = this.responseText;
+            // strip quotes from beginning and end of response
+            if (strip_quotes) {
+                if (response[0] == '"') {
+                    response = response.substring(1, response.length - 1);
+                }
+                if (response[response.length - 1] == '"') {
+                    response = response.substring(0, response.length - 2);
+                }
+            }
+
+            callback(response);
+        }
+        xhttp.open("POST", this.base_url + "/generate-image", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.setRequestHeader('x-api-key', this.api_key);
+        xhttp.send(JSON.stringify({"prompt": prompt}));
+    }
+
+    hydrate_gentag(elem, prompt=null){
+        if (prompt == null) {
+            prompt = elem.attributes['data-prompt'].value;
+        }
+        let type = this.get_gentag_type(elem);
+        if (type == "text") {
+            this.generate_text(prompt, function(response) {
+                elem.innerHTML = response;
+            });
+        }
+        else if (type == "image") {
+            this.generate_image(prompt, function(response) {
+                elem.src = response;
+            });
+        }
     }
 }
 

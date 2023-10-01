@@ -64,7 +64,7 @@ def generate_text(request: GenerateTextRequest, req: Request):
         temperature=temperature,
     )
     
-    return response['choices'][0].message['content'].replace('\n', '<br>')
+    return response['choices'][0].message['content']
 
 class GenerateImageRequest(BaseModel):
     prompt: str
