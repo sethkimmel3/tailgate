@@ -1,17 +1,17 @@
 function initGentags(key=''){
     // get all elements with data attribute data-gentag
-    // for (const element of document.querySelectorAll('[data-gentag]')) {
-    //     if (element.tagName == "P") {
-    //         processGenTag(element, "text");
-    //     }
-    //     else if (element.tagName == "IMG") {
-    //         processGenTag(element, "image");
-    //     }
-    // }
-    test_gentags_api();
+    for (const element of document.querySelectorAll('[data-gentag]')) {
+        if (element.tagName == "P") {
+            processGenTag(element, "text", key);
+        }
+        else if (element.tagName == "IMG") {
+            processGenTag(element, "image", key);
+        }
+    }
+    // test_gentags_api(key);
 }
 
-async function test_gentags_api(){
+async function test_gentags_api(api_key=''){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         console.log(this.responseText);
@@ -20,10 +20,11 @@ async function test_gentags_api(){
     // add body to request
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.setRequestHeader('x-api-key', api_key);
     xhttp.send(JSON.stringify({"query": "test!"}));
 }
 
-function processGenTag(elem, type){
+function processGenTag(elem, type, api_key=''){
     prompt = elem.attributes['data-prompt'].value;
     // send prompt to gentags api
     var xhttp = new XMLHttpRequest();
@@ -50,5 +51,6 @@ function processGenTag(elem, type){
         url = "https://sethkimmel3--gentags-api-generate-image.modal.run?prompt=" + encodeURIComponent(prompt);
     }
     xhttp.open("GET", url, true);
+    xhttp.setRequestHeader('x-api-key', api_key);
     xhttp.send();
 }
