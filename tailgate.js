@@ -1,7 +1,7 @@
-class GenTags {
+class tailgate {
     constructor(api_key, hydrate_on_load=true) {
         this.api_key = api_key;
-        this.base_url = "https://sethkimmel3--gentags-api-app.modal.run";
+        this.base_url = "https://sethkimmel3--tailgate-api-app.modal.run";
         if (hydrate_on_load) {
             this.hydrate_gentags();
         }

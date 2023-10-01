@@ -5,15 +5,15 @@
     <title>Example</title>
 </head>
 <body>
-    <script src="gentags.js"></script>
+    <script src="tailgate.js"></script>
     <h1>My Dynamic Goulash Recipe</h1>
     <img id="img" data-gentag data-prompt="A delicious goulash.">
     <p id="recipe" data-gentag data-prompt="Craft a recipe for goulash using exactly five ingredients. Return the ingredients to make it, and the steps to do so, and nothing else."></p>
     <script>
-        GT = new GenTags('example-public-key', false);
+        TG = new tailgate('example-public-key', false);
         var el = document.getElementById('recipe');
         var image = document.getElementById('img');
         var elems = [el, image];
-        GT.hydrate_gentags(elems);
+        TG.hydrate_gentags(elems);
     </script>
 </body>

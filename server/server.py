@@ -11,7 +11,7 @@ image = (
     .pip_install_from_requirements("requirements.txt")
 )
 
-stub = modal.Stub("gentags-api", image=image)
+stub = modal.Stub("tailgate-api", image=image)
 web_app = FastAPI()
 
 web_app.add_middleware(
