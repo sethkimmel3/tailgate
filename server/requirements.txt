@@ -1,3 +1,8 @@
-openai
-fastapi
-pydantic
+openai==0.27.9
+fastapi==0.99.1
+pydantic==1.10.12
+langchain[llms]==0.0.268
+pdfminer.six==20221105
+chromadb==0.4.10
+pypdf==3.15.1
+tiktoken==0.4.0

@@ -84,6 +84,18 @@ class tailgate {
         xhttp.send(JSON.stringify({"prompt": prompt}));
     }
 
+    ask_docs(prompt, callback) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            let response = this.responseText;
+            callback(response);
+        }
+        xhttp.open("POST", this.base_url + "/ask-docs", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.setRequestHeader('x-api-key', this.api_key);
+        xhttp.send(JSON.stringify({"prompt": prompt}));
+    }
+
     hydrate_gentag(elem, prompt=null){
         if (prompt == null) {
             prompt = elem.attributes['data-prompt'].value;
