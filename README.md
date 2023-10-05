@@ -53,7 +53,7 @@ You should now be able to hit your own self-hosted API endpoints from the `tailg
 
 Simply instantiate the tailgate library as an object:
 
-`TG = new tailgate('example-public-key');`
+`var TG = new tailgate('example-public-key');`
 
 and use that object to access the libraries methods, like so:
 

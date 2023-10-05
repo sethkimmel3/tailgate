@@ -17,7 +17,7 @@
     <button id="submit">Submit</button>
     <p id="answer"></p>
     <script>
-        TG = new tailgate('example-public-key');
+        var TG = new tailgate('example-public-key');
         document.getElementById('submit').onclick = function() {
             document.getElementById('answer').innerHTML = 'Loading...';
             

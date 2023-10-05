@@ -47,7 +47,7 @@
     <p id="answer"></p>
     <img id="meal">
     <script>
-        TG = new tailgate('example-public-key');
+        var TG = new tailgate('example-public-key');
         document.getElementById('submit').onclick = function() {
             document.getElementById('answer').innerHTML = 'Loading...';
             
@@ -61,7 +61,7 @@
                     prompt += ', ';
                 }
             }
-            varTG.generate_text(prompt, function(answer) {
+            TG.generate_text(prompt, function(answer) {
                 document.getElementById('answer').innerHTML = answer;
                 prompt = "The meal described in: " + answer;
                 if (prompt.length > 1000) {
