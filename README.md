@@ -2,12 +2,14 @@
 
 Tailgate makes it easy to add generative-AI components to static websites or client-facing web apps. You can use it to create highly custom, engaging AI features for your site visitors.
 
+Check us out at [tailgate-5c9.pages.dev](https://tailgate-5c9.pages.dev/)
+
 ### Basic Usage
 
-Import the javascript library (we'll host a CDN soon):
+Import the javascript library from a CDN:
 
 ```
-<script src="../tailgate.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/sethkimmel3/tailgate/client/cdn/tailgate.js"></script>
 ```
 
 Decorate HTML tags with the `data-gentag` and `data-prompt` tags. For example:

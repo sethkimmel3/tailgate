@@ -7,5 +7,5 @@ IMAGE_SIZE = '256x256' # Change this to the size of the image you want to genera
 
 # Change this to create public keys for your own domains. 'localhost' is not recommended for production use, but may be helpful in prototyping and testing.
 DOMAIN_WHITELIST = { 
-    'example-public-key': ['localhost', 'sethkim.me'],
+    'example-public-key': ['localhost', 'sethkim.me', 'tailgate-5c9.pages.dev'],
 }

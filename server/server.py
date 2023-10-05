@@ -42,6 +42,7 @@ def check_key_origin(request):
     if key not in DOMAIN_WHITELIST:
         return False
     if domain not in DOMAIN_WHITELIST[key]:
+        print("Invalid origin: " + domain)
         return False
     return True
 
