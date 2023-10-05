@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example</title>
+    <script src="../tailgate.js"></script>
+</head>
+<body>
+    <h1> Meal Idea </h1>
+    <p> Select the ingredients you have on hand, and we'll give you a meal idea! (hold the command button on mac, or ctrl button on windows to select multiple)</p>
+    <select name="ingredients" id="ingredients" style="height:250px;" multiple>
+        <option value="chicken">Chicken</option>
+        <option value="beef">Beef</option>
+        <option value="pork">Pork</option>
+        <option value="salmon">Salmon</option>
+        <option value="shrimp">Shrimp</option>
+        <option value="rice">Rice</option>
+        <option value="potatoes">Potatoes</option>
+        <option value="pasta">Pasta</option>
+        <option value="broccoli">Broccoli</option>
+        <option value="carrots">Carrots</option>
+        <option value="peas">Peas</option>
+        <option value="corn">Corn</option>
+        <option value="green beans">Green Beans</option>
+        <option value="spinach">Spinach</option>
+        <option value="lettuce">Lettuce</option>
+        <option value="tomatoes">Tomatoes</option>
+        <option value="onions">Onions</option>
+        <option value="garlic">Garlic</option>
+        <option value="mushrooms">Mushrooms</option>
+        <option value="cheese">Cheese</option>
+        <option value="eggs">Eggs</option>
+        <option value="bread">Bread</option>
+        <option value="butter">Butter</option>
+        <option value="milk">Milk</option>
+        <option value="sugar">Sugar</option>
+        <option value="flour">Flour</option>
+        <option value="salt">Salt</option>
+        <option value="pepper">Pepper</option>
+        <option value="cinnamon">Cinnamon</option>
+        <option value="vanilla">Vanilla</option>
+        <option value="chocolate">Chocolate</option>
+        <option value="strawberries">Strawberries</option>
+    </select>
+    <br><br>
+    <button id="submit">Submit</button>
+    <p id="answer"></p>
+    <img id="meal">
+    <script>
+        TG = new tailgate('example-public-key');
+        document.getElementById('submit').onclick = function() {
+            document.getElementById('answer').innerHTML = 'Loading...';
+            
+            prompt = 'Give me a meal can I make with the following ingredients only. Include a recipe, but keep it short.';
+            ingredients = document.getElementById('ingredients').selectedOptions;
+            for (i = 0; i < ingredients.length; i++) {
+                prompt += ingredients[i].value;
+                if (i == ingredients.length - 2) {
+                    prompt += ', and ';
+                } else if (i < ingredients.length - 2) {
+                    prompt += ', ';
+                }
+            }
+            varTG.generate_text(prompt, function(answer) {
+                document.getElementById('answer').innerHTML = answer;
+                prompt = "The meal described in: " + answer;
+                if (prompt.length > 1000) {
+                    prompt = prompt.substring(0, 1000);
+                }
+                TG.generate_image(prompt, function(res) {
+                    document.getElementById('meal').src = res;
+                });
+            });
+        };
+    </script>
+</body>

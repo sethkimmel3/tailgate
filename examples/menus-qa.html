@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example</title>
+    <script src="../tailgate.js"></script>
+</head>
+<body>
+    <h1> Ask a question about our menus! </h1>
+    <ul>
+        <li><a href="https://www.panerabread.com/en-us/menu/pdf-menu.html">Panera Bread</a></li>
+        <li><a href="http://www.chilis.ca/files/pdf/Chilis-Menu-2021-03.pdf">Chili's</a></li>
+        <li><a href="https://www.redlobster.com/docs/default-source/qr-menu/jan42021/rm-4-dc_010421.pdf">Red Lobster</a></li>
+    </ul>
+    <textarea id="question" style="height: 75px; width: 250px;">What is the Parrot Isle Jumbo Coconut Shrimp served with?</textarea>
+    <br>
+    <button id="submit">Submit</button>
+    <p id="answer"></p>
+    <script>
+        TG = new tailgate('example-public-key');
+        document.getElementById('submit').onclick = function() {
+            document.getElementById('answer').innerHTML = 'Loading...';
+            
+            TG.ask_docs(document.getElementById('question').value, function(answer) {
+                document.getElementById('answer').innerHTML = answer;
+            });
+        };
+    </script>
+</body>
+</html>

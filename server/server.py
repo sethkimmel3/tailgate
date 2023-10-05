@@ -13,15 +13,7 @@ from langchain.vectorstores import Chroma
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
 
-DOCUMENTS_DIR = './documents'
-EMBEDDINGS_DIR = './embeddings'
-OPENAI_MODEL = 'gpt-3.5-turbo'
-MAX_TOKENS = 250
-TEMPERATURE = 0.5
-
-domain_whitelist = {
-    'example-public-key': ['localhost', 'sethkim.me'],
-}
+from configs import *
 
 documents_mt = modal.Mount.from_local_dir(local_path=DOCUMENTS_DIR, remote_path='/')
 embeddings_fs = modal.NetworkFileSystem.persisted('tailgate-embeddings')
@@ -47,9 +39,9 @@ web_app.add_middleware(
 def check_key_origin(request):
     key = request.headers.get("x-api-key")
     domain = urlparse(request.headers.get("origin")).hostname.replace('www.', '')
-    if key not in domain_whitelist:
+    if key not in DOMAIN_WHITELIST:
         return False
-    if domain not in domain_whitelist[key]:
+    if domain not in DOMAIN_WHITELIST[key]:
         return False
     return True
 
@@ -148,7 +140,7 @@ def generate_image(request: GenerateImageRequest, req: Request):
     response = openai.Image.create(
         prompt=prompt,
         n=1,
-        size="256x256"
+        size=IMAGE_SIZE
     )
 
     image_url = response['data'][0]['url']

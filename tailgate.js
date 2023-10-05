@@ -40,21 +40,23 @@ class tailgate {
     generate_text(prompt, callback, strip_quotes=true, replace_newlines=true) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
-            let response = this.responseText;
-            // strip quotes from beginning and end of response
-            if (strip_quotes) {
-                if (response[0] == '"') {
-                    response = response.substring(1, response.length - 1);
+            if (this.readyState == 4 && this.status == 200) {
+                let response = this.responseText;
+                // strip quotes from beginning and end of response
+                if (strip_quotes) {
+                    if (response[0] == '"') {
+                        response = response.substring(1, response.length - 1);
+                    }
+                    if (response[response.length - 1] == '"') {
+                        response = response.substring(0, response.length - 2);
+                    }
                 }
-                if (response[response.length - 1] == '"') {
-                    response = response.substring(0, response.length - 2);
+                if (replace_newlines) {
+                    response = response.replace(/\\n/g, "<br>");
                 }
-            }
-            if (replace_newlines) {
-                response = response.replace(/\\n/g, "<br>");
-            }
 
-            callback(response);
+                callback(response);
+            }
         }
         xhttp.open("POST", this.base_url + "/generate-text", true);
         xhttp.setRequestHeader("Content-type", "application/json");
@@ -65,18 +67,20 @@ class tailgate {
     generate_image(prompt, callback, strip_quotes=true) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
-            let response = this.responseText;
-            // strip quotes from beginning and end of response
-            if (strip_quotes) {
-                if (response[0] == '"') {
-                    response = response.substring(1, response.length - 1);
+            if (this.readyState == 4 && this.status == 200) {
+                let response = this.responseText;
+                // strip quotes from beginning and end of response
+                if (strip_quotes) {
+                    if (response[0] == '"') {
+                        response = response.substring(1, response.length - 1);
+                    }
+                    if (response[response.length - 1] == '"') {
+                        response = response.substring(0, response.length - 2);
+                    }
                 }
-                if (response[response.length - 1] == '"') {
-                    response = response.substring(0, response.length - 2);
-                }
-            }
 
-            callback(response);
+                callback(response);
+            }
         }
         xhttp.open("POST", this.base_url + "/generate-image", true);
         xhttp.setRequestHeader("Content-type", "application/json");
@@ -84,11 +88,26 @@ class tailgate {
         xhttp.send(JSON.stringify({"prompt": prompt}));
     }
 
-    ask_docs(prompt, callback) {
+    ask_docs(prompt, callback, strip_quotes=true, replace_newlines=true) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
-            let response = this.responseText;
-            callback(response);
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText)['response'];
+                // strip quotes from beginning and end of response
+                if (strip_quotes) {
+                    if (response[0] == '"') {
+                        response = response.substring(1, response.length - 1);
+                    }
+                    if (response[response.length - 1] == '"') {
+                        response = response.substring(0, response.length - 2);
+                    }
+                }
+                if (replace_newlines) {
+                    response = response.replace(/\\n/g, "<br>");
+                }
+
+                callback(response);
+            }
         }
         xhttp.open("POST", this.base_url + "/ask-docs", true);
         xhttp.setRequestHeader("Content-type", "application/json");

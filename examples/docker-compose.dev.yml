@@ -5,7 +5,7 @@ services:
     image: nginx
     container_name: webserver
     volumes:
-     - ./:/usr/share/nginx/html
+     - ../:/usr/share/nginx/html
     ports:
      - 80:80
     networks:

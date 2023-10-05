@@ -1,10 +1,10 @@
 # tailgate
 
-Tailgate simplifies adding generative AI components to a static website or client-side of a web app. You can use it to create highly custom, engaging AI features for your users.
+Tailgate makes it easy to add generative-AI components to static websites or client-facing web apps. You can use it to create highly custom, engaging AI features for your site visitors.
 
 ### Basic Usage
 
-Import the javascript library from a CDN:
+Import the javascript library (we'll host a CDN soon):
 
 ```
 <script src="../tailgate.js"></script>
@@ -27,25 +27,50 @@ et violà! Your components will hydrate with AI-generated content:
 
 ![goulash](img/goulash.png)
 
+See the `recipe-generator.html` for a full implementation.
+
 ### Setup
 
-For now, tailgate is self-hosted, experimental project. **If you want help setting it up or would like to use a cloud-hosted version, email [seth.kimmel3@gmail.com](seth.kimmel3@gmail.com)**. 
+For now, tailgate is a self-hosted, experimental project. **If you want help setting it up or would like to use an externally managed version, email [seth.kimmel3@gmail.com](mailto:seth.kimmel3@gmail.com)**. 
 
-Tailgate uses [Modal](https://modal.com/) on the backend and [OpenAI](https://openai.com/) for inference. You'll need to set up accounts with both of them. Use Modal's built-in secrets manager to safely store your OpenAI key.
+1. Tailgate uses [Modal](https://modal.com/) on the backend and [OpenAI](https://openai.com/) for inference - you'll need accounts with both. Once created, use Modal's built-in secrets manager to  store your OpenAI API key.
 
-Once you've done so, create an arbitrary public API key and whitelist the domains where you'll be using tailgate. 
+2. Once you've done so, open up `configs.py` and modify `DOMAIN_WHITELIST`. Create an arbitrarily-named public API key, and whitelist the domains where you'll be integrating tailgate. For example: 
 
-For example: 
+    `'example-public-key': ['localhost', 'sethkim.me']`
 
-`'example-public-key': ['localhost', 'sethkim.me']`
+3. At this point, you can deploy the server to Modal using `modal deploy server.py`. It will respond with a public URL route that you'll use to replace the default URL route in `tailgate.js`, like so: 
 
-At this point, you can deploy the server to Modal using `modal deploy server.py`. It will respond with a public URL route that you'll use to replace the default URL route in `tailgate.js`, like so: 
+    `this.base_url = "https://[your-modal-username]--tailgate-api-app.modal.run";`
 
-`this.base_url = "https://[my-name]--tailgate-api-app.modal.run";`
-
-You should now be able to hit your own self-hosted API endpoints using tailgate.
+You should now be able to hit your own self-hosted API endpoints from the `tailgate.js` client installed on your website.
 
 ### Advanced Usage
 
 `tailgate.js` exposes a client API, allowing you to do far more powerful things than just static generation. There are currently methods that allow for generation of text and images, as well as answering questions over custom data.
 
+#### Accessing the API
+
+Simply instantiate the tailgate library as an object:
+
+`TG = new tailgate('example-public-key');`
+
+and use that object to access the libraries methods, like so:
+
+```
+TG.ask_docs(document.getElementById('question').value, function(answer) {
+    // do something with the answer
+});
+```
+
+For a custom example that uses both image and text, check out the `meal-idea.html` example.
+
+#### Using Custom Data
+
+To add your own data that users can ask questions about, copy files to the `documents` directory adjacent to `server.py` (removing the example documents first). Currently we only support PDF's, but will add more file types based on demand.
+
+To view an example that uses custom data, check out the `menus-qa.html` example. 
+
+### Warning!
+
+This is an experimental repo, and there are always malicious actors. To mitigate risk, it's recommended to set a low "hard limit" in the your OpenAI account in case of fraudulent usage. We'll likely be adding additional fraud prevention features soon. 
