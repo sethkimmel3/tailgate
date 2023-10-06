@@ -121,6 +121,9 @@ class tailgate {
         }
         let type = this.get_gentag_type(elem);
         if (type == "text") {
+            if (elem.attributes['data-loading-message'] != null) {
+                elem.innerHTML = elem.attributes['data-loading-message'].value;
+            }
             this.generate_text(prompt, function(response) {
                 elem.innerHTML = response;
             });
