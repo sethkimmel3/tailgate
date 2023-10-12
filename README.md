@@ -1,8 +1,8 @@
 # tailgate
 
-Tailgate makes it easy to add generative-AI components to static websites or client-facing web apps. You can use it to create highly custom, engaging AI features for your site visitors.
+Tailgate makes it easy to add generative-AI components to a website without setting up complex backend infrastructure. You can use it to create highly custom, engaging AI features for your site visitors.
 
-Check us out at [tailgate-5c9.pages.dev](https://tailgate-5c9.pages.dev/)
+Check us out at [tailgate.dev](https://tailgate-5c9.pages.dev/)!
 
 ### Basic Usage
 
@@ -29,7 +29,7 @@ et violà! Your components will hydrate with AI-generated content:
 
 ![goulash](img/goulash.png)
 
-See the `recipe-generator.html` for a full implementation.
+See the `recipe-generator.html` for a full implementation [here](https://tailgate.dev/recipe-generator).
 
 ### Setup
 
@@ -65,13 +65,13 @@ TG.ask_docs(document.getElementById('question').value, function(answer) {
 });
 ```
 
-For a custom example that uses both image and text, check out the `meal-idea.html` example.
+For a custom example that uses both image and text, check out the `meal-idea.html` example [here](https://tailgate.dev/meal-idea).
 
 #### Using Custom Data
 
 To add your own data that users can ask questions about, copy files to the `documents` directory adjacent to `server.py` (removing the example documents first). Currently we only support PDF's, but will add more file types based on demand.
 
-To view an example that uses custom data, check out the `menus-qa.html` example. 
+To view an example that uses custom data, check out the `menus-qa.html` example [here](https://tailgate.dev/menus-qa). 
 
 ### Warning!
 
